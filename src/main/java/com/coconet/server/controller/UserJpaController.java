@@ -162,7 +162,7 @@ public class UserJpaController {
     }
 
     @PostMapping("/board/todo")//todoData
-    public List<TodoData> todoAll(@RequestBody String name) {
+    public List<TodoData> todoAll(@RequestBody TodoData todoData) {
 
         return todoRepository.findAll();
     }
