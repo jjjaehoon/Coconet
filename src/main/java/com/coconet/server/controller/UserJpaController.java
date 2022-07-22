@@ -1,17 +1,13 @@
 package com.coconet.server.controller;
 
-import antlr.Token;
-import com.coconet.server.dto.AuthDto;
-import com.coconet.server.dto.TokenDto;
-import com.coconet.server.dto.UserDto;
-import com.coconet.server.entity.Notice;
+import com.coconet.server.define.NoticeType;
+import com.coconet.server.dto.*;
+import com.coconet.server.entity.*;
 import com.coconet.server.jwt.JwtFilter;
 import com.coconet.server.jwt.JwtTokenProvider;
-import com.coconet.server.repository.BoardRepository;
-import com.coconet.server.repository.UserRepository;
-import com.coconet.server.dto.LoginDto;
-import com.coconet.server.entity.Users;
+import com.coconet.server.repository.*;
 import com.coconet.server.service.AuthService;
+import com.coconet.server.service.LogService;
 import com.coconet.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,6 +41,14 @@ public class UserJpaController {
     private final UserRepository userRepository;
     private final AuthService authService;
     private final BoardRepository boardRepository;
+    private final LogService logService;
+    private final NoticeType noticeDefine;
+    private final ApprovalRepository approvalRepository;
+    private final ChartRepository chartRepository;
+    private final LogRepository logRepository;
+    private final TodoRepository todoRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
+
     private BCryptPasswordEncoder bcrypt = new BCryptPasswordEncoder();
 
 
@@ -58,20 +62,11 @@ public class UserJpaController {
     }   // 전체 사용자 조회
 
     @GetMapping("/log")
-    public String logTest() {
+    public boolean logTest() {
 
-        String TAG_MAIN = "#COCONET ::: ";
-        String ETC_MESSAGE = "create file";
-
-        log.info("{} INFO log ::: {}", TAG_MAIN, ETC_MESSAGE);
-        log.warn("{} WARN log", TAG_MAIN);
-        log.error("{} ERROR log", TAG_MAIN);
-
-        return "Success";
+        return logService.noticeLog(noticeDefine.WORK_START, "개발팀 김사원 출근", "2022-07-18");
 
     }   // 전체 사용자 조회
-
-
 
     @GetMapping("/users/{num}")
     @PreAuthorize("hasAnyRole('ADMIN')") // ADMIN 권한만 조회 가능
@@ -102,7 +97,6 @@ public class UserJpaController {
     /**
      로그인
      */
-    @CrossOrigin("*")
     @PostMapping("/login")
     public ResponseEntity<AuthDto> login(@RequestBody LoginDto loginDto)
     {
@@ -111,11 +105,15 @@ public class UserJpaController {
 
         // 김현빈을 위한 header 세팅
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.add("Access-Control-Allow-Origin", "http://localhost:3000");
+        responseHeaders.add("Access-Control-Allow-Origin", "*");
         responseHeaders.add("Access-Control-Allow-Credentials", "true");
 
         // JWT 토큰 생성
         TokenDto tokenDto = authService.createToken(loginDto);
+
+        // Refresh Token DB에 저장
+        Token tokenData = new Token(user.getEmail(), tokenDto.getRefreshToken());
+        refreshTokenRepository.save(tokenData);
 
         /**
          * DB에서 유저 조회
@@ -126,17 +124,17 @@ public class UserJpaController {
         }
         else if ((user.getEmail().equals(loginDto.getEmail()))
                 && (bcrypt.matches(loginDto.getPassword(), user.getPassword())))
-                    // 첫 번째 인자(plain)와 두 번째 인자(encrypt)의 값이 동일한지 확인
+        // 첫 번째 인자(plain)와 두 번째 인자(encrypt)의 값이 동일한지 확인
         {
             String name = user.getName();
-            AuthDto returnData = new AuthDto(name, "true");
-            TokenDto returnToken = new TokenDto(tokenDto.getAccessToken(), tokenDto.getRefreshToken());
-            responseHeaders.add("JWT-Access-Token", tokenDto.getAccessToken());
-            responseHeaders.add("JWT-Refresh-Token", tokenDto.getRefreshToken());
+            AuthDto authDto = new AuthDto(name, "true");
+
+            responseHeaders.add("Jwt_Access_Token", tokenDto.getAccessToken());
+            responseHeaders.add("Jwt_Refresh_Token", tokenDto.getRefreshToken());
 
             return ResponseEntity.ok()
                     .headers(responseHeaders)
-                    .body(returnData);
+                    .body(authDto);
         }
         else {
             throw new UserNotFoundException(String.format("입력된 정보가 틀렸습니다."));
@@ -146,6 +144,27 @@ public class UserJpaController {
     @GetMapping("/board/notice")//공지사항 전체 조회
     public List<Notice> noticeAll() {
         return boardRepository.findAll();
+    }
+
+    @GetMapping("/board/approval")//approvalData
+    public List<ApprovalData> approvalAll() {
+        return approvalRepository.findAll();
+    }
+
+    @GetMapping("/board/chart")//chartData
+    public List<ChartData> chartAll() {
+        return chartRepository.findAll();
+    }
+
+    @GetMapping("/board/log")//logData
+    public List<LogData> logAll() {
+        return logRepository.findAll();
+    }
+
+    @PostMapping("/board/todo")//todoData
+    public List<TodoData> todoAll(@RequestBody String name) {
+
+        return todoRepository.findAll();
     }
 
     @DeleteMapping("/users/{num}")

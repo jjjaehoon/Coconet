@@ -9,19 +9,22 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ChartData {
+public class ApprovalData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private int num;
 
-    private String title;
-    private int value;
+    private String state;
     private String color;
+    private String name;
+    private String day;
+    private String img;
 }

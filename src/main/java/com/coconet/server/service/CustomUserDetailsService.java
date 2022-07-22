@@ -28,8 +28,8 @@ public class CustomUserDetailsService implements UserDetailsService {
    @Transactional
    public UserDetails loadUserByUsername(final String email) {
       return userRepository.findOneWithAuthoritiesByEmail(email)
-         .map(user -> createUser(email, user))
-         .orElseThrow(() -> new UsernameNotFoundException(email + " -> 데이터베이스에서 찾을 수 없습니다."));
+              .map(user -> createUser(email, user))
+              .orElseThrow(() -> new UsernameNotFoundException(email + " -> 데이터베이스에서 찾을 수 없습니다."));
    }
 
    // 2. 1의 정보를 기반으로 userdetails.User 객체를 생성해서 return
@@ -39,7 +39,7 @@ public class CustomUserDetailsService implements UserDetailsService {
               .map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
               .collect(Collectors.toList());
 
-      return new org.springframework.security.core.userdetails.User(user.getName(),
+      return new org.springframework.security.core.userdetails.User(user.getEmail(),
               user.getPassword(),
               grantedAuthorities);
    }

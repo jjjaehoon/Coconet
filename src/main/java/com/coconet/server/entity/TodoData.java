@@ -14,14 +14,13 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ChartData {
+public class TodoData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private int num;
 
-    private String title;
-    private int value;
-    private String color;
+    private String name;
+    private String todo;
 }

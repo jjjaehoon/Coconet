@@ -17,8 +17,10 @@ public class CorsConfig {
       config.addAllowedOrigin("http://localhost:3000/");
       config.addAllowedHeader("*");
       config.addAllowedMethod("*");
+      config.addExposedHeader("JWT_Access_Token");
+      config.addExposedHeader("JWT_Refresh_Token");
 
-      source.registerCorsConfiguration("/api/**", config);
+      source.registerCorsConfiguration("/coconet/**", config);
       return new CorsFilter(source);
    }
 

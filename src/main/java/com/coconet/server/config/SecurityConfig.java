@@ -5,6 +5,7 @@ import com.coconet.server.jwt.JwtAuthenticationEntryPoint;
 import com.coconet.server.jwt.JwtSecurityConfig;
 import com.coconet.server.jwt.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -49,13 +50,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers(
-                        "/h2-console/**"
-                );
+                .antMatchers("/h2-console/**")
+                .antMatchers("/**");
     }
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity.cors().and();
         httpSecurity
                 // token을 사용하는 방식이기 때문에 CSRF를 disable해줌
                 .csrf().disable()
@@ -85,6 +86,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/coconet/signup").permitAll()
                 .antMatchers("/coconet/login").permitAll()
                 .antMatchers("/coconet/log").permitAll()
+                .antMatchers("/coconet/reissue").permitAll()
+                .antMatchers("/**").permitAll()
 
                 //.anyRequest().authenticated()
 

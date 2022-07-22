@@ -14,9 +14,10 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 public class Notice {
+
     @Id
     @GeneratedValue
     private int id;
     private String title;
-    private Date day;
+    private String day;
 }
