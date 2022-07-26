@@ -9,8 +9,11 @@ import com.coconet.server.repository.*;
 import com.coconet.server.service.AuthService;
 import com.coconet.server.service.LogService;
 import com.coconet.server.service.UserService;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.mysql.cj.xdevapi.JsonArray;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,30 +145,71 @@ public class UserJpaController {
         }
     }
 
+    /**
+     * 공지사항 조회
+     */
     @GetMapping("/board/notice")//공지사항 전체 조회
     public List<Notice> noticeAll() {
         return boardRepository.findAll();
     }
 
+    /**
+     * 결재 조회
+     */
     @GetMapping("/board/approval")//approvalData
     public List<ApprovalData> approvalAll() {
         return approvalRepository.findAll();
     }
 
+    /**
+     * 차트 조회
+     */
     @GetMapping("/board/chart")//chartData
     public List<ChartData> chartAll() {
         return chartRepository.findAll();
     }
 
+    /**
+     * 실시간 기록 조회
+     */
     @GetMapping("/board/log")//logData
     public List<LogData> logAll() {
         return logRepository.findAll();
     }
 
-    @PostMapping("/board/todo")//todoData
-    public List<TodoData> todoAll(@RequestBody TodoData todoData) {
 
-        return todoRepository.findAll();
+    /**
+     * todolist 조회
+     */
+    @GetMapping("/board/todo")//todoData
+    public List<TodoResultDto> todoAll(@RequestParam("username") String name) {
+
+        int size = todoRepository.findByuserName(name).size();
+        List<TodoData> listTodo = todoRepository.findByuserName(name);
+        List<TodoResultDto> todoResultDto = new ArrayList<>(size);
+
+        if (!listTodo.isEmpty()) {
+            for (int i=0; i<size; i++) {
+                TodoResultDto resultDto = new TodoResultDto(listTodo.get(i).getTodo());
+                todoResultDto.add(i, resultDto);
+            }
+
+            return todoResultDto;
+        }
+        else {
+            throw new UserNotFoundException(String.format("조회할 리스트가 없습니다."));
+        }
+    }
+
+    /**
+     * todolist 추가
+     */
+    @PostMapping("board/todo/add")
+    public TodoData todoAdd(@RequestBody TodoData todoData) {
+
+
+
+        return todoData;
     }
 
     @DeleteMapping("/users/{num}")

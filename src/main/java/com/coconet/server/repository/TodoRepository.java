@@ -5,8 +5,10 @@ import com.coconet.server.entity.TodoData;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface TodoRepository extends JpaRepository<TodoData, Integer> {
-    TodoData findByName(String name);
-    TodoData findByTodo(String todo);
+    List<TodoData> findByuserName(String name);
+    String findByTodo(String todo);
 }
