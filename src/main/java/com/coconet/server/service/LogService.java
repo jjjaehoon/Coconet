@@ -50,10 +50,10 @@ public class LogService {
         String ip = getIp();
         String date = getDate();
 
-        if (authority.get(0).getAuthority().equals("ROLE_USER"))
+        if (authority.get(0).getAuthority().equals("ROLE_USER")) // 일반 사용자일 경우
         {
             // IP:192.168.0.1 | TAG:HOME | TITLE:신규 회원 추가 | STATUS:SUCCESS | EMAIL:box0_@naver.com | DATE:2022.07.28 | TYPE:WEB
-            userLogger.info("IP:{} | TAG:{} | TITLE:{} | STATUS:{} | EMAIL:{} | DATE:{} | TYPE:{}"
+            userLogger.info("{ip:{}, tag:{}, title:{}, status:{}, email:{}, date:{}, type:{}}"
                     , ip
                     , tag
                     , title
@@ -63,10 +63,10 @@ public class LogService {
                     , type);
             return true;
         }
-        else if (authority.get(0).getAuthority().equals("ROLE_ADMIN"))
+        else if (authority.get(0).getAuthority().equals("ROLE_ADMIN")) // 관리자일 경우
         {
             // IP:192.168.0.1 | TAG:HOME | TITLE:출근 | STATUS:SUCCESS | EMAIL:box0_@naver.com | DATE:2022.07.28 | TYPE:WEB
-            adminLogger.info("IP:{} | TAG:{} | TITLE:{} | STATUS:{} | EMAIL:{} | DATE:{} | TYPE:{}"
+            adminLogger.info("{ip:{}, tag:{}, title:{}, status:{}, email:{}, date:{}, type:{}}"
                     , ip
                     , tag
                     , title

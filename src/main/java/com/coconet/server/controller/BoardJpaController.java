@@ -1,12 +1,9 @@
 package com.coconet.server.controller;
 
-import com.coconet.server.define.NoticeType;
 import com.coconet.server.dto.TodoResultDto;
 import com.coconet.server.entity.*;
+import com.coconet.server.exception.UserNotFoundException;
 import com.coconet.server.repository.*;
-import com.coconet.server.service.AuthService;
-import com.coconet.server.service.LogService;
-import com.coconet.server.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;

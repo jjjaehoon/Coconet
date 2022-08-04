@@ -2,9 +2,9 @@ insert into AUTHORITY (AUTHORITY_NAME) values('ROLE_USER');
 insert into AUTHORITY (AUTHORITY_NAME) values('ROLE_ADMIN');
 
 insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90000, 'department_admin', 'position_admin', 'admin', 'admin', '01000000000', '000000',  '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum0');
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90001, 'department1', 'position1', '정재훈', 'jjh@naver.com', '01012341234', '970816', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum1');
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90002, 'department2', 'position2', '김은비', 'keb@naver.com', '01023452345', '011208', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum2');
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90003, 'department3', 'position3', '김현빈', 'khb@naver.com', '01034563456', '012345', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum3');
+insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90001, 'department1', 'position1', '정재훈', 'jjh@naver.com', '01020770880', '970816', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum1');
+insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90002, 'department2', 'position2', '김은비', 'keb@naver.com', '01026207411', '011208', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum2');
+insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90003, 'department3', 'position3', '김현빈', 'khb@naver.com', '01065597556', '012345', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum3');
 
 insert into USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values(90000, 'ROLE_ADMIN');
 insert into USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values(90001, 'ROLE_USER');

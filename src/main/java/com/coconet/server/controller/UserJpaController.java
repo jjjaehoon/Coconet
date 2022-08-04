@@ -1,9 +1,9 @@
 package com.coconet.server.controller;
 
 import com.coconet.server.define.LogTag;
-import com.coconet.server.define.NoticeType;
 import com.coconet.server.dto.*;
 import com.coconet.server.entity.*;
+import com.coconet.server.exception.UserNotFoundException;
 import com.coconet.server.repository.*;
 import com.coconet.server.service.AuthService;
 import com.coconet.server.service.CustomUserDetailsService;
