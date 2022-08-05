@@ -5,18 +5,19 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Notice {
+public class Position {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "position_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 외래키
     private int id;
-    private String title;
-    private String day;
-    private String date;
+
+    private int departmentId;
+    private String position;
+
 }

@@ -5,18 +5,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Notice {
+public class Department {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "department_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // 자동 증가되는 PK
     private int id;
-    private String title;
-    private String day;
-    private String date;
+
+    private String department;
+
 }
