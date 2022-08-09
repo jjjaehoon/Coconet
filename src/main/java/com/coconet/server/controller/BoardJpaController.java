@@ -3,13 +3,17 @@ package com.coconet.server.controller;
 
 import com.coconet.server.dto.NoticeDto;
 import com.coconet.server.dto.TodoResultDto;
+import com.coconet.server.dto.UserStatusLogdataDto;
 import com.coconet.server.entity.*;
 import com.coconet.server.exception.UserNotFoundException;
 import com.coconet.server.repository.*;
+import com.coconet.server.service.BoardService;
+import com.coconet.server.service.ReadFileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,10 +26,10 @@ public class BoardJpaController {
 
     private final UserRepository userRepository;
     private final ApprovalRepository approvalRepository;
-    private final ChartRepository chartRepository;
-    private final LogRepository logRepository;
     private final TodoRepository todoRepository;
     private final BoardRepository boardRepository;
+    private final ReadFileService readFileService;
+    private final BoardService boardService;
 
     /**
      * 공지사항 조회
@@ -76,11 +80,29 @@ public class BoardJpaController {
     }
 
     /**
+     * 알림 목록 조회
+     */
+    @GetMapping("/board/notification")
+    public List<UserStatusLogdataDto> getNoticeList() {
+        try {
+            return readFileService.getStatusNotification("user_log.log");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    /**
      * 결재 조회
      */
     @GetMapping("/board/approval")//approvalData
-    public List<ApprovalData> approvalAll() {
-        return approvalRepository.findAll();
+    public List<UserStatusLogdataDto> approvalAll() {
+        try {
+            return readFileService.getUserStatusWithAdminLog("user_log.log");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**
@@ -88,15 +110,20 @@ public class BoardJpaController {
      */
     @GetMapping("/board/chart")//chartData
     public List<ChartData> chartAll() {
-        return chartRepository.findAll();
+        return boardService.findUserStatus();
     }
 
     /**
      * 실시간 기록 조회
      */
     @GetMapping("/board/log")//logData
-    public List<LogData> logAll() {
-        return logRepository.findAll();
+    public List<UserStatusLogdataDto> logAll() {
+        try {
+            return readFileService.getUserStatusLog("user_log.log");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 

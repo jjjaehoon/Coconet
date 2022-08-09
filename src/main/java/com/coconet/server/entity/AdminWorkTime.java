@@ -14,15 +14,13 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class ChartData {
+public class AdminWorkTime {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    private int num;
-
+    private int id;
     private String title;
-    private double value;
-    private String color;
-
+    private String value;
+    private boolean state;
 }

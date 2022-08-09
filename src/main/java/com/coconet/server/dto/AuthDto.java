@@ -1,5 +1,6 @@
 package com.coconet.server.dto;
 
+import com.sun.istack.Nullable;
 import lombok.*;
 
 @Getter
@@ -9,11 +10,18 @@ import lombok.*;
 public class AuthDto {
 
     private String name;
-    private String authResult;
-    private String state;
 
-    // JWT 관련
-    //private String AccessToken;
-    //private String RefreshToken;
+    @Nullable
+    private String authResult;
+
+    @Nullable
+    private String status;
+
+    private int userid;
+
+    public AuthDto (String name, int userid) {
+        this.name = name;
+        this.userid = userid;
+    }
 
 }

@@ -1,20 +1,20 @@
 package com.coconet.server.controller;
 
+import com.coconet.server.dto.AuthDto;
+import com.coconet.server.entity.AdminWorkTime;
 import com.coconet.server.entity.Users;
+import com.coconet.server.exception.UserNotFoundException;
+import com.coconet.server.repository.AdminWorkTimeRepository;
 import com.coconet.server.repository.DepartmentRepository;
 import com.coconet.server.repository.PositionRepository;
 import com.coconet.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,6 +25,7 @@ public class AdminController {
     private final DepartmentRepository departmentRepository;
     private final PositionRepository positionRepository;
     private final UserRepository userRepository;
+    private final AdminWorkTimeRepository adminWorkTimeRepository;
 
 
     /**
@@ -60,18 +61,42 @@ public class AdminController {
      */
     @GetMapping("/user/username")
     //@PreAuthorize("hasAnyRole('ADMIN')") // ADMIN 권한만 조회 가능
-    public List<String> retrieveUsername(@RequestParam("department") String department
-            ,@RequestParam("position") String position)
+    public List<AuthDto> retrieveUsername(@RequestParam("department") String department
+            , @RequestParam("position") String position)
     {
         // 부서&직급 정보가 일치하는 유저를 반환
         List<Users> findUser = userRepository.findByDepartmentAndPosition(department, position);
 
-        List<String> usernameList = new ArrayList<>();
+        List<AuthDto> usernameList = new ArrayList<>();
         for (int i = 0; i < findUser.size(); i++)
         {
-            usernameList.add(findUser.get(i).getName());
+            AuthDto authDto = new AuthDto(findUser.get(i).getName(), findUser.get(i).getNum());
+            usernameList.add(i, authDto);
         }
 
         return usernameList;
+    }
+
+    /**
+     * 관리자페이지
+     * 출퇴근시간 조회
+     */
+    @GetMapping("/admin/worktime")
+    public List<AdminWorkTime> worktimeAll() {
+        return adminWorkTimeRepository.findAll();
+    }
+
+    /**
+     * 관리자페이지
+     * 출퇴근시간 수정
+     */
+    @PostMapping("/admin/worktime/edit")
+    public void worktimeEdit(@RequestBody AdminWorkTime adminWorkTime) {
+        if(!adminWorkTimeRepository.findByTitle(adminWorkTime.getTitle()).getTitle().isEmpty()) {
+            adminWorkTimeRepository.updateValueTitle(adminWorkTime.getValue(), adminWorkTime.getTitle());
+        }
+        else {
+            throw new UserNotFoundException(String.format("존재하지않는 값입니다."));
+        }
     }
 }

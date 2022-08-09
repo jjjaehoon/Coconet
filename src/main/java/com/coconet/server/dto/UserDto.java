@@ -4,6 +4,7 @@ package com.coconet.server.dto;
 import com.coconet.server.entity.Users;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
+import com.sun.istack.Nullable;
 import lombok.*;
 
 import java.util.Set;
@@ -44,7 +45,7 @@ public class UserDto {
       return UserDto.builder()
               .Num(users.getNum())
               .name(users.getName())
-              .birthDate(users.getBirthdate())
+              .birthDate(users.getBirthDate())
               .phone(users.getPhone())
               .email(users.getEmail())
               .department(users.getDepartment())

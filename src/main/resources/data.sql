@@ -1,12 +1,12 @@
 insert into AUTHORITY (AUTHORITY_NAME) values('ROLE_USER');
 insert into AUTHORITY (AUTHORITY_NAME) values('ROLE_ADMIN');
 
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90000, 'department_admin', 'position_admin', 'admin', 'admin', '01000000000', '000000',  '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum0');
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90001, '개발팀', '부장', '정재훈', 'jjh@naver.com', '01020770880', '970816', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum1');
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90002, '인사팀', '사장', '김은비', 'keb@naver.com', '01026207411', '011208', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum2');
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90003, '디자인팀', '사원', '김현빈', 'khb@naver.com', '01065597556', '012345', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum3');
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90004, '회계팀', '사원', '회계인', 'khb1@naver.com', '01011111111', '111111', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum4');
-insert into users(user_id, department, position, name, email, phone, birthdate, password, andnum) values(90005, '영업팀', '사원', '영업인', 'khb2@naver.com', '01022222222', '222222', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum5');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90000, 'department_admin', 'position_admin', 'admin', 'admin', '01000000000', '000000',  '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum0');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90001, '개발팀', '부장', '정재훈', 'jjh@naver.com', '01020770880', '970816', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum1');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90002, '인사팀', '사장', '김은비', 'keb@naver.com', '01026207411', '011208', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum2');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90003, '디자인팀', '사원', '김현빈', 'khb@naver.com', '01065597556', '012345', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum3');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90004, '회계팀', '사원', '회계인', 'khb1@naver.com', '01011111111', '111111', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum4');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90005, '영업팀', '사원', '영업인', 'khb2@naver.com', '01022222222', '222222', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum5');
 
 insert into USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values(90000, 'ROLE_ADMIN');
 insert into USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values(90001, 'ROLE_USER');
@@ -88,3 +88,14 @@ insert into position(position_id, department_id, position) values(222, 105, '부
 insert into position(position_id, department_id, position) values(223, 105, '대리');
 insert into position(position_id, department_id, position) values(224, 105, '사원');
 insert into position(position_id, department_id, position) values(225, 105, '인턴');
+
+insert into user_status(user_id, status) values(90000, 15);
+insert into user_status(user_id, status) values(90001, 15);
+insert into user_status(user_id, status) values(90002, 15);
+insert into user_status(user_id, status) values(90003, 15);
+
+insert into Admin_Work_Time(id, title, value, state) values(1, '근무일', '월-금', 'false');
+insert into Admin_Work_Time(id, title, value, state) values(2, '출근시간', '09:00', 'false');
+insert into Admin_Work_Time(id, title, value, state) values(3, '점심시간', '12:00 - 13:00', 'false');
+insert into Admin_Work_Time(id, title, value, state) values(4, '퇴근시간', '05:00', 'false');
+insert into Admin_Work_Time(id, title, value, state) values(5, '심야 퇴근시간', '09:00', 'false');

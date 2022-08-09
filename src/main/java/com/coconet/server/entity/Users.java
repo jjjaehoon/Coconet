@@ -30,7 +30,7 @@ public class Users {
     @Column(name = "phone", unique = true)
     private String phone;       //전화번호
 
-    private String birthdate;   //생년월일
+    private String birthDate;   //생년월일
     private String password;    //비밀번호
     private String andnum;      //안드로이드 번호
 
