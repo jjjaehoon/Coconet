@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 public class LogTag {
 
     public final String TAG_LOGIN = "Login";
+    public final String TAG_LOGOUT = "Login";
     public final String TAG_SIGNUP = "Signup";
     public final String TAG_CERTIFICATION = "Certification";
     public final String TAG_STATUS = "Status";
