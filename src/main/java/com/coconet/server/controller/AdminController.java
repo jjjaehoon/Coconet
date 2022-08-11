@@ -10,9 +10,11 @@ import com.coconet.server.repository.PositionRepository;
 import com.coconet.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +29,8 @@ public class AdminController {
     private final UserRepository userRepository;
     private final AdminWorkTimeRepository adminWorkTimeRepository;
 
+    @Value("${coconet.worktime.crontext}") // application.xml에 정의
+    private String cronTextSetting;
 
     /**
      * 최초 접근시
@@ -91,12 +95,69 @@ public class AdminController {
      * 출퇴근시간 수정
      */
     @PostMapping("/admin/worktime/edit")
-    public void worktimeEdit(@RequestBody AdminWorkTime adminWorkTime) {
-        if(!adminWorkTimeRepository.findByTitle(adminWorkTime.getTitle()).getTitle().isEmpty()) {
-            adminWorkTimeRepository.updateValueTitle(adminWorkTime.getValue(), adminWorkTime.getTitle());
+    public String worktimeEdit(@Valid @RequestBody AdminWorkTime adminWorkTime)
+    {
+        adminWorkTimeRepository.updateValueTitle(adminWorkTime.getValue(), adminWorkTime.getTitle());
+        return spliceText();
+    }
+
+    public String spliceText()
+    {
+        String workDay = adminWorkTimeRepository.findValueByTitle("근무일");
+        String workTime = adminWorkTimeRepository.findValueByTitle("출근시간");
+
+        String[] workDaySplit = workDay.split("-");
+        String workDayCast = ""; // 월-금 -> MON-FRI
+        for (int i = 0; i < 2; i++)
+        {
+            if (i == 1)
+            {
+                workDayCast += "-"; // 월-()
+            }
+            switch (workDaySplit[i].toString())
+            {
+                case "일":
+                    workDayCast += "SUN";
+                    break;
+
+                case "월":
+                    workDayCast += "MON";
+                    break;
+
+                case "화":
+                    workDayCast += "TUE";
+                    break;
+
+                case "수":
+                    workDayCast += "WED";
+                    break;
+
+                case "목":
+                    workDayCast += "THU";
+                    break;
+
+                case "금":
+                    workDayCast += "FRI";
+                    break;
+
+                case "토":
+                    workDayCast += "SAT";
+                    break;
+            }
         }
-        else {
-            throw new UserNotFoundException(String.format("존재하지않는 값입니다."));
-        }
+
+        String[] workTimeSplit = workTime.split(":");
+
+        String cronText = "";
+        cronText += "00 "; // sec
+        cronText += workTimeSplit[1] + " "; // min
+        cronText += workTimeSplit[0] + " "; // hour
+        cronText += "* "; // day
+        cronText += "* "; // month
+        cronText += workDayCast; // day of week(요일, ex. MON-FRI)
+
+        cronTextSetting = cronText;
+
+        return cronTextSetting;
     }
 }

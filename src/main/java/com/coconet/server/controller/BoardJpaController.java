@@ -4,6 +4,7 @@ package com.coconet.server.controller;
 import com.coconet.server.dto.NoticeDto;
 import com.coconet.server.dto.TodoResultDto;
 import com.coconet.server.dto.UserStatusLogdataDto;
+import com.coconet.server.dto.UserStatusNotificationDto;
 import com.coconet.server.entity.*;
 import com.coconet.server.exception.UserNotFoundException;
 import com.coconet.server.repository.*;
@@ -25,7 +26,6 @@ import java.util.Optional;
 public class BoardJpaController {
 
     private final UserRepository userRepository;
-    private final ApprovalRepository approvalRepository;
     private final TodoRepository todoRepository;
     private final BoardRepository boardRepository;
     private final ReadFileService readFileService;
@@ -83,7 +83,7 @@ public class BoardJpaController {
      * 알림 목록 조회
      */
     @GetMapping("/board/notification")
-    public List<UserStatusLogdataDto> getNoticeList() {
+    public List<UserStatusNotificationDto> getNoticeList() {
         try {
             return readFileService.getStatusNotification("user_log.log");
         } catch (IOException e) {
@@ -131,15 +131,14 @@ public class BoardJpaController {
      * todolist 조회
      */
     @GetMapping("/board/todo")//todoData
-    public List<TodoResultDto> todoAll(@RequestParam("username") String name) {
+    public List<TodoResultDto> todoAll(@RequestParam("userNum") int userNum) {
 
-        int size = todoRepository.findByuserName(name).size();
-        List<TodoData> listTodo = todoRepository.findByuserName(name);
+        int size = todoRepository.findByUserNum(userNum).size();
+        List<TodoData> listTodo = todoRepository.findByUserNum(userNum);
         List<TodoResultDto> todoResultDto = new ArrayList<>(size);
-
         if (!listTodo.isEmpty()) {
             for (int i=0; i<size; i++) {
-                TodoResultDto resultDto = new TodoResultDto(listTodo.get(i).getTodo());
+                TodoResultDto resultDto = new TodoResultDto(listTodo.get(i).getTodo(), listTodo.get(i).getTodoCheck());
                 todoResultDto.add(i, resultDto);
             }
             return todoResultDto;
@@ -154,15 +153,21 @@ public class BoardJpaController {
      */
     @PostMapping("/board/todo/add")
     public void todoAdd(@RequestBody TodoData todoData) {
+        if(todoData.getTodo() != null) {
 
-        Users findUser = userRepository.findByName(todoData.getUserName());
+            Users findUser = userRepository.findByNum(todoData.getUserNum());
 
-        TodoData todoAddData = new TodoData();
-        todoAddData.setUserNum(findUser.getNum());
-        todoAddData.setUserName(todoData.getUserName());
-        todoAddData.setTodo(todoData.getTodo());
+            TodoData todoAddData = new TodoData();
+            todoAddData.setUserNum(findUser.getNum());
+            todoAddData.setUserName(todoData.getUserName());
+            todoAddData.setTodo(todoData.getTodo());
+            todoAddData.setTodoCheck("false");
 
-        TodoData todoResultData = todoRepository.save(todoAddData);
+            TodoData todoResultData = todoRepository.save(todoAddData);
+        }
+        else{
+            throw new UserNotFoundException(String.format("내용을 입력하세요"));
+        }
     }
 
     /**
@@ -170,6 +175,21 @@ public class BoardJpaController {
      */
     @DeleteMapping("/board/todo/delete")
     public void todoDelete(@RequestBody TodoData todoData) {
-        todoRepository.delete(todoRepository.findByTodo(todoData.getTodo()));
+        todoRepository.deleteTodoNum(todoData.getUserNum(), todoData.getTodo());
+    }
+
+    /**
+     * todolist 선택
+     */
+    @PostMapping("/board/todo/check")
+    public void todoCheck(@RequestBody TodoData todoData) {
+
+        TodoData setTodoData = todoRepository.findByUserNumTodo(todoData.getUserNum(), todoData.getTodo());
+
+        if (setTodoData.getTodoCheck().equals("false")) {
+            todoRepository.updateCheck("true", todoData.getUserNum(), todoData.getTodo());
+        } else if (setTodoData.getTodoCheck().equals("true")) {
+            todoRepository.updateCheck("false", todoData.getUserNum(), todoData.getTodo());
+        }
     }
 }

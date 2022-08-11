@@ -4,6 +4,7 @@ import com.coconet.server.define.LogTag;
 import com.coconet.server.define.Status;
 import com.coconet.server.dto.*;
 import com.coconet.server.entity.*;
+import com.coconet.server.exception.CustomException;
 import com.coconet.server.exception.UserNotFoundException;
 import com.coconet.server.jwt.JwtTokenProvider;
 import com.coconet.server.repository.*;
@@ -226,6 +227,61 @@ public class UserJpaController {
                 , user.getName()
                 , user.getEmail()
                 , user.getDepartment());
+    }
+
+    /**
+     현재 비밀번호 체크
+     */
+    @PostMapping("/password/check")
+    public boolean passwordCheck(@RequestBody PasswordCheckDto passwordCheckDto)
+    {
+        Users user = userRepository.findByNameAndPhone(passwordCheckDto.getName(), passwordCheckDto.getPhone());
+        Optional<Users> loginUser = Optional.ofNullable(user);
+
+        // db에 있는 비밀번호와 다르면
+        if (!(bcrypt.matches(passwordCheckDto.getPassword(), user.getPassword())))
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+
+    /**
+     @로그인 - 비밀번호 찾기
+     @유저정보수정 - 비밀번호 변경
+     */
+    @PostMapping("/password/change")
+    public ResponseEntity passwordChange(@RequestBody PasswordFindDto passwordDto)
+    {
+        Users user = userRepository.findByNameAndPhone(passwordDto.getName(), passwordDto.getPhone());
+        Optional<Users> loginUser = Optional.ofNullable(user);
+
+        if (passwordDto.getNewPassword().length() < 5)
+        {
+            logService.buildLog(
+                    customUserDetailsService.loadAuthoritiesByUser(user)
+                    , logTag.TAG_PASSWORD_CHANGE
+                    , "비밀번호 변경 실패"
+                    , user.getName()
+                    , user.getEmail()
+                    , user.getDepartment());
+            throw new CustomException(String.format("비밀번호는 5자 이상으로 설정해주세요."));
+        }
+        else
+        {
+            user = userService.passwordChange(user, passwordDto.getNewPassword());
+            logService.buildLog(
+                    customUserDetailsService.loadAuthoritiesByUser(user)
+                    , logTag.TAG_PASSWORD_CHANGE
+                    , "비밀번호 변경 성공"
+                    , user.getName()
+                    , user.getEmail()
+                    , user.getDepartment());
+        }
+        return ResponseEntity.ok(logTag.TAG_PASSWORD_CHANGE);
     }
 
     @DeleteMapping("/users/{num}")

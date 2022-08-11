@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TodoResultDto {
     String todo;
+    String todo_Check;
 }

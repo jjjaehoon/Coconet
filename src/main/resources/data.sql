@@ -1,12 +1,10 @@
 insert into AUTHORITY (AUTHORITY_NAME) values('ROLE_USER');
 insert into AUTHORITY (AUTHORITY_NAME) values('ROLE_ADMIN');
 
-insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90000, 'department_admin', 'position_admin', 'admin', 'admin', '01000000000', '000000',  '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum0');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90000, 'department_admin', 'position_admin', 'admin', 'admin', '01000000000', '000000',  '$2a$10$NZBLHb8/v1GjrriNGK/wx.MV/d7Hm07ggjd2Wj1IBITA1Hjoz85Da', 'andNum0');
 insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90001, '개발팀', '부장', '정재훈', 'jjh@naver.com', '01020770880', '970816', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum1');
 insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90002, '인사팀', '사장', '김은비', 'keb@naver.com', '01026207411', '011208', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum2');
-insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90003, '디자인팀', '사원', '김현빈', 'khb@naver.com', '01065597556', '012345', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum3');
-insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90004, '회계팀', '사원', '회계인', 'khb1@naver.com', '01011111111', '111111', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum4');
-insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90005, '영업팀', '사원', '영업인', 'khb2@naver.com', '01022222222', '222222', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum5');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90003, '디자인팀', '사원', '김현빈', 'khb@naver.com', '01065597556', '012345', '$2a$10$NZBLHb8/v1GjrriNGK/wx.MV/d7Hm07ggjd2Wj1IBITA1Hjoz85Da', 'andNum3');
 
 insert into USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values(90000, 'ROLE_ADMIN');
 insert into USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values(90001, 'ROLE_USER');
@@ -40,18 +38,18 @@ insert into log_data(num, state, color, name, position, time, img) values(5, '�
 insert into log_data(num, state, color, name, position, time, img) values(6, '퇴근', '#86ca89', '김대리', '백엔드 개발', to_char(sysdate, 'PM HH:MI'), '프사 링크1');
 insert into log_data(num, state, color, name, position, time, img) values(7, '퇴근', '#86ca89', '김대리', '백엔드 개발', to_char(sysdate, 'PM HH:MI'), '프사 링크1');
 
-insert into todo_data(num, user_Num, user_Name, todo) values(1, 90003, '김현빈', '1회차 회의');
-insert into todo_data(num, user_Num, user_Name, todo) values(2, 90003, '김현빈', '1차 JWT 토근 기능 구현');
-insert into todo_data(num, user_Num, user_Name, todo) values(3, 90003, '김현빈', '1차 메인페이지 작업');
-insert into todo_data(num, user_Num, user_Name, todo) values(4, 90003, '김현빈', '1차 코드 리펙토링');
-insert into todo_data(num, user_Num, user_Name, todo) values(5, 90002, '김은비', '2회차 회의');
-insert into todo_data(num, user_Num, user_Name, todo) values(6, 90002, '김은비', '2차 JWT 토근 기능 구현');
-insert into todo_data(num, user_Num, user_Name, todo) values(7, 90002, '김은비', '2차 메인페이지 작업');
-insert into todo_data(num, user_Num, user_Name, todo) values(8, 90002, '김은비', '2차 코드 리펙토링');
-insert into todo_data(num, user_Num, user_Name, todo) values(9, 90001, '정재훈', '3회차 회의');
-insert into todo_data(num, user_Num, user_Name, todo) values(10, 90001, '정재훈', '3차 JWT 토근 기능 구현');
-insert into todo_data(num, user_Num, user_Name, todo) values(11, 90001, '정재훈', '3차메인페이지 작업');
-insert into todo_data(num, user_Num, user_Name, todo) values(12, 90001, '정재훈', '3차코드 리펙토링');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(1, 90003, '김현빈', '1회차 회의', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(2, 90003, '김현빈', '1차 JWT 토근 기능 구현', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(3, 90003, '김현빈', '1차 메인페이지 작업', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(4, 90003, '김현빈', '1차 코드 리펙토링', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(5, 90002, '김은비', '2회차 회의', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(6, 90002, '김은비', '2차 JWT 토근 기능 구현', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(7, 90002, '김은비', '2차 메인페이지 작업', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(8, 90002, '김은비', '2차 코드 리펙토링', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(9, 90001, '정재훈', '3회차 회의', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(10, 90001, '정재훈', '3차 JWT 토근 기능 구현', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(11, 90001, '정재훈', '3차메인페이지 작업', 'false');
+insert into todo_data(num, user_Num, user_Name, todo, todo_Check) values(12, 90001, '정재훈', '3차코드 리펙토링', 'false');
 
 insert into department(department_id, department) values(101, '인사팀');
 insert into department(department_id, department) values(102, '회계팀');

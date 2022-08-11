@@ -1,14 +1,14 @@
 package com.coconet.server.controller;
 
+import com.coconet.server.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,6 +28,8 @@ public class ImageController {
      4. 프론트에서 DB에 있는 image 정보를 요청
         -> getMapping을 이용하여 원하는 이미지를 불러올 수 있음
      */
+
+    private final ImageService imageService;
 
     @PostMapping("/image")
     public ResponseEntity<String> createFeed(@RequestParam("file") MultipartFile file) {
@@ -59,6 +61,14 @@ public class ImageController {
         }
 
         return new ResponseEntity<String>(HttpStatus.OK);
+    }
+
+    /**
+     * 파일 업로드
+     */
+    @PostMapping("/image/upload")
+    public ResponseEntity<?> imageUpload(MultipartHttpServletRequest files) throws Exception {
+        imageService.addProfil()
     }
 
 }

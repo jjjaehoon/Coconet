@@ -18,6 +18,13 @@ public interface AdminWorkTimeRepository extends JpaRepository<AdminWorkTime, In
 
     AdminWorkTime findByTitle(String title);
 
+
+    // 근무일, 근무시간 조회
+    @Query("select a.value from AdminWorkTime a "
+            + "where a.title = :title")
+    String findValueByTitle(@Param("title") String title);
+
+
     @Transactional
     @Modifying
     @Query("update AdminWorkTime a set a.value = :modify_value where a.title = :title")
