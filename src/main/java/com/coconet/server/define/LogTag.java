@@ -10,6 +10,8 @@ public class LogTag {
     public final String TAG_SIGNUP = "Signup";
     public final String TAG_CERTIFICATION = "Certification";
     public final String TAG_PASSWORD_CHANGE = "Password Change";
+    public final String TAG_NAME_CHANGE = "Name Change";
+    public final String TAG_PHONE_CHANGE = "Phone Change";
     public final String TAG_STATUS = "Status";
 
     public final String TAG_USER_STATUS = "Work Status";

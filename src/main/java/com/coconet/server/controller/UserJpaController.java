@@ -56,16 +56,18 @@ public class UserJpaController {
 
     @GetMapping("/users/{num}") // 사용자 1명 조회
     //@PreAuthorize("hasAnyRole('ADMIN')")
-    public Users retrieveUser(@PathVariable int num)
+    public UserCheckDto retrieveUser(@PathVariable int num)
     {
-        Optional<Users> users = userRepository.findById(num);
+        Users userOne = userRepository.findByNum(num);
+        UserCheckDto userCheckDto = new UserCheckDto(
+                userOne.getEmail(),
+                userOne.getPhone(),
+                userOne.getDepartment(),
+                userOne.getPosition(),
+                userOne.getBirthDate()
+        );
 
-        if (users.isEmpty())
-        {
-            throw new UserNotFoundException(String.format("ID[%s] not found", num));
-        }   // 데이터가 존재하지않으면
-
-        return users.get();
+        return userCheckDto;
     }
 
     @GetMapping("/users/userid") // 사용자 num(고유번호) 조회
@@ -283,6 +285,55 @@ public class UserJpaController {
         }
         return ResponseEntity.ok(logTag.TAG_PASSWORD_CHANGE);
     }
+
+    /**
+     이름 변경
+     */
+    @PostMapping("/name/change")
+    public AuthDto nameChange(@RequestBody Users users) {
+        userRepository.updateNameByNum(users.getName(), users.getNum());
+
+        Users modyUser = userRepository.findByNum(users.getNum());
+
+        AuthDto authDto = new AuthDto(modyUser.getName(), "true"
+                , userStatusRepository.findStatusByNum(modyUser.getNum())
+                , modyUser.getNum());
+
+        logService.buildLog(
+                customUserDetailsService.loadAuthoritiesByUser(modyUser)
+                , logTag.TAG_NAME_CHANGE
+                , "이름 변경 성공"
+                , modyUser.getName()
+                , modyUser.getEmail()
+                , modyUser.getDepartment());
+
+        return authDto;
+    }
+
+    /**
+     전화번호 변경
+     */
+    @PostMapping("/phone/change")
+    public AuthDto phoneChange(@RequestBody Users users) {
+        userRepository.updatePhoneByNum(users.getPhone(), users.getNum());
+
+        Users modyUser = userRepository.findByNum(users.getNum());
+
+        AuthDto authDto = new AuthDto(modyUser.getName(), "true"
+                , userStatusRepository.findStatusByNum(modyUser.getNum())
+                , modyUser.getNum());
+
+        logService.buildLog(
+                customUserDetailsService.loadAuthoritiesByUser(modyUser)
+                , logTag.TAG_PHONE_CHANGE
+                , "전화번호 변경 성공"
+                , modyUser.getName()
+                , modyUser.getEmail()
+                , modyUser.getDepartment());
+
+        return authDto;
+    }
+
 
     @DeleteMapping("/users/{num}")
     public void deleteUser(@PathVariable int num) {

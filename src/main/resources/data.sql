@@ -2,9 +2,9 @@ insert into AUTHORITY (AUTHORITY_NAME) values('ROLE_USER');
 insert into AUTHORITY (AUTHORITY_NAME) values('ROLE_ADMIN');
 
 insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90000, 'department_admin', 'position_admin', 'admin', 'admin', '01000000000', '000000',  '$2a$10$NZBLHb8/v1GjrriNGK/wx.MV/d7Hm07ggjd2Wj1IBITA1Hjoz85Da', 'andNum0');
-insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90001, '개발팀', '부장', '정재훈', 'jjh@naver.com', '01020770880', '970816', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum1');
-insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90002, '인사팀', '사장', '김은비', 'keb@naver.com', '01026207411', '011208', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum2');
-insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90003, '디자인팀', '사원', '김현빈', 'khb@naver.com', '01065597556', '012345', '$2a$10$NZBLHb8/v1GjrriNGK/wx.MV/d7Hm07ggjd2Wj1IBITA1Hjoz85Da', 'andNum3');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90001, '개발팀', '부장', '정재훈', 'jjh@naver.com', '01020770880', '19970816', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum1');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90002, '인사팀', '사장', '김은비', 'keb@naver.com', '01026207411', '20011208', '$2a$10$UhIJYsHKFsfSx9dGZL7thOnEzfAZcsJZkMOiKEWF1YNA5Xwx2BDjW', 'andNum2');
+insert into users(user_id, department, position, name, email, phone, birth_Date, password, andnum) values(90003, '디자인팀', '사원', '김현빈', 'khb@naver.com', '01065597556', '20012345', '$2a$10$NZBLHb8/v1GjrriNGK/wx.MV/d7Hm07ggjd2Wj1IBITA1Hjoz85Da', 'andNum3');
 
 insert into USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values(90000, 'ROLE_ADMIN');
 insert into USER_AUTHORITY (USER_ID, AUTHORITY_NAME) values(90001, 'ROLE_USER');

@@ -3,12 +3,11 @@ package com.coconet.server.controller;
 import com.coconet.server.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +19,7 @@ import java.util.Date;
 @RequiredArgsConstructor
 public class ImageController {
 
+    private final ImageService imageService;
     /**
      소스 설명
      1. file 정보를 가져오고 그 값을 내 로컬 어딘가(여기서는 C://coconet/images/)에 저장함
@@ -28,9 +28,6 @@ public class ImageController {
      4. 프론트에서 DB에 있는 image 정보를 요청
         -> getMapping을 이용하여 원하는 이미지를 불러올 수 있음
      */
-
-    private final ImageService imageService;
-
     @PostMapping("/image")
     public ResponseEntity<String> createFeed(@RequestParam("file") MultipartFile file) {
 
@@ -67,8 +64,16 @@ public class ImageController {
      * 파일 업로드
      */
     @PostMapping("/image/upload")
-    public ResponseEntity<?> imageUpload(MultipartHttpServletRequest files) throws Exception {
-        imageService.addProfil()
+    public void uploadImage(@RequestParam("files") MultipartFile file,
+                            @RequestHeader("Jwt_Access_Token") String accessToken) {
+        imageService.fileUpload(file, accessToken);
     }
 
+    /**
+     * 파일 출력
+     */
+    @GetMapping("/image/output")
+    public ResponseEntity<byte[]> outputImage(@RequestParam("num") int num) {
+        return imageService.fileInput(num);
+    }
 }

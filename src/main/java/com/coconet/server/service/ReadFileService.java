@@ -15,6 +15,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -86,7 +87,7 @@ public class ReadFileService
                 index = strArr.indexOf("tag:") + 4;             tag = strArr.substring(index, strArr.indexOf(", title:"));
                 index = strArr.indexOf("title:") + 6;           title = strArr.substring(index, strArr.indexOf(", name:"));
                 index = strArr.indexOf("name:") + 5;            name = strArr.substring(index, strArr.indexOf(", email:"));
-                index = strArr.indexOf("email:") + 6;          email = strArr.substring(index, strArr.indexOf(", department:"));
+                index = strArr.indexOf("email:") + 6;           email = strArr.substring(index, strArr.indexOf(", department:"));
                 index = strArr.indexOf("date:") + 5;            date = strArr.substring(index, strArr.length() - 1);
                 // 나중에 Gson 라이브러리 써서 수정합시다...
 
@@ -272,6 +273,7 @@ public class ReadFileService
     public List<AdminLogdataDto> getAdminLog(String fileName) throws IOException
     {
         List<String> readLines = Files.readAllLines(Paths.get(filePath + fileName));
+        Collections.reverse(readLines);
 
         // List<String> -> json으로 변환
         String json = new Gson().toJson(readLines);
@@ -288,6 +290,7 @@ public class ReadFileService
     public List<UserLogdataDto> getUserLog(String fileName, String findUserEmail) throws IOException
     {
         List<String> readLines = Files.readAllLines(Paths.get(filePath + fileName));
+        Collections.reverse(readLines);
 
         // List<String> -> json으로 변환
         String json = new Gson().toJson(readLines);
@@ -304,6 +307,7 @@ public class ReadFileService
     public List<UserStatusLogdataDto> getUserStatusWithAdminLog(String fileName) throws IOException
     {
         List<String> readLines = Files.readAllLines(Paths.get(filePath + fileName));
+        Collections.reverse(readLines);
 
         // List<String> -> json으로 변환
         String json = new Gson().toJson(readLines);
@@ -320,6 +324,7 @@ public class ReadFileService
     public List<UserStatusLogdataDto> getUserStatusLog(String fileName) throws IOException
     {
         List<String> readLines = Files.readAllLines(Paths.get(filePath + fileName));
+        Collections.reverse(readLines);
 
         // List<String> -> json으로 변환
         String json = new Gson().toJson(readLines);
@@ -336,6 +341,7 @@ public class ReadFileService
     public List<UserStatusNotificationDto> getStatusNotification(String fileName) throws IOException
     {
         List<String> readLines = Files.readAllLines(Paths.get(filePath + fileName));
+        Collections.reverse(readLines);
 
         // List<String> -> json으로 변환
         String json = new Gson().toJson(readLines);
