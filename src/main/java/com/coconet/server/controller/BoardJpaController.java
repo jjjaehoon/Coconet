@@ -47,7 +47,16 @@ public class BoardJpaController {
             noticeDtoList.add(i, noticeDto);
         }
 
-        return noticeDtoList;
+        List<NoticeDto> noticeDtoListResult = new ArrayList<>();
+        for (int i=0; i<16; i++) {
+            NoticeDto noticeDto = new NoticeDto();
+            noticeDto.setId(boardRepository.findAllById().get(i));
+            noticeDto.setTitle(boardRepository.findAllByTitle().get(i));
+            noticeDto.setDay(boardRepository.findAllByDay().get(i));
+            noticeDtoListResult.add(i, noticeDto);
+        }
+
+        return noticeDtoListResult;
     }
 
     /**
